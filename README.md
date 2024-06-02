@@ -13,4 +13,4 @@ contents included
 7. POST api call using requests library
 8. POST api call assertion and validations
 9. POST dynamic payload creation using external json file
-10. 
+10. DELETE api call using requests library
