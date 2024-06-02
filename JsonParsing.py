@@ -24,4 +24,19 @@ with open('SampleTestData/sampleJson.json', 'r') as reader:
     print(batters)
     print(type(batters))
     for idName in batters:
+        itemType = idName["type"]
         print(idName["type"])
+        if itemType == "Blueberry":
+            print("Hey I got the blueberry")
+
+
+# comparing the schemas of two json files
+with open('SampleTestData/sampleJsonForComp.json', 'r') as reader:
+    sampleJsonForComp = json.load(reader)
+    if sampleJsonForComp == currentContent:
+        print("Both Json are same")
+    else:
+        print("Json is different")
+
+    assert sampleJsonForComp == currentContent
+
