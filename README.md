@@ -19,4 +19,5 @@ contents included
 13. Payload Separation using different py file
 14. Creating class for storing the resources of endpoints
 15. Creating and storing the test data into a different class i utility section for more readability
-16. 
+16. for authorization auth , Verify =False
+17. for file upload files
