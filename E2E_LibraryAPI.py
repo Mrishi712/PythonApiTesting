@@ -3,19 +3,21 @@ import requests
 import configparser
 
 from utilities.payloads import *
+from utilities.resources import *
+from utilities.testData import *
 
 # Configuring the ini file
 config = configparser.ConfigParser()
 config.read('utilities/properties.ini')
 
 # Test data for creating the book
-name = "Test Book 2"
-isbn = "sdfgrfyh"
-aisle = "89723"
-author = "TesterQA"
+name = TestData.name
+isbn = TestData.isbn
+aisle = TestData.aisle
+author = TestData.author
 
 # POST - add book to library
-post_api_url = config['API']['baseEndpoint'] + 'Addbook.php'
+post_api_url = config['API']['baseEndpoint'] + ApiResources.addBook
 body = addBookPayload(name, isbn, aisle, author)
 req_headers = {
     'Content-Type': 'application/json'
@@ -29,7 +31,7 @@ bookCreated = dict_response_body['ID']
 print("Book ID created : ", bookCreated)
 
 # GET - Get by Author
-get_api_url = config['API']['baseEndpoint'] + 'GetBook.php'
+get_api_url = config['API']['baseEndpoint'] + ApiResources.getBook
 parameters = {"AuthorName": author}
 
 response = requests.get(get_api_url, params=parameters)
@@ -52,7 +54,7 @@ else:
 # POST - Delete the book created
 
 # declaring url and fetching the payload from json file
-delete_api_url = config['API']['baseEndpoint'] + 'DeleteBook.php'
+delete_api_url = config['API']['baseEndpoint'] + ApiResources.deleteBook
 req_headers = {
     'Content-Type': 'text/plain'
 }
