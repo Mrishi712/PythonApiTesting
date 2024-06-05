@@ -1,36 +1,38 @@
 import json
 import requests
-import jsbeautifier
+import configparser
 
-# POST - Create a Book
+from utilities.payloads import *
+
+# Configuring the ini file
+config = configparser.ConfigParser()
+config.read('utilities/properties.ini')
+
+# Test data for creating the book
 name = "Test Book 2"
 isbn = "sdfgrfyh"
 aisle = "89723"
 author = "TesterQA"
 
-url = "https://rahulshettyacademy.com/Library/Addbook.php"
-with open('payloads/addBookLibraryPL.json', 'r') as reader:
-    payLoad = json.load(reader)
-    payLoad["name"] = name
-    payLoad["isbn"] = isbn
-    payLoad["aisle"] = aisle
-    payLoad["author"] = author
-
+# POST - add book to library
+post_api_url = config['API']['baseEndpoint'] + 'Addbook.php'
+body = addBookPayload(name, isbn, aisle, author)
 req_headers = {
     'Content-Type': 'application/json'
 }
 
-response = requests.post(url, headers=req_headers, json=payLoad)
+response = requests.post(post_api_url, headers=req_headers, json=body)
+
 response_body = response.text
-dict_response_body = json.loads(response_body)
+dict_response_body = json.loads(response.text)
 bookCreated = dict_response_body['ID']
-print("Book ID created : ",bookCreated)
+print("Book ID created : ", bookCreated)
 
 # GET - Get by Author
-url = "https://rahulshettyacademy.com/Library/GetBook.php"
+get_api_url = config['API']['baseEndpoint'] + 'GetBook.php'
 parameters = {"AuthorName": author}
 
-response = requests.get(url, params=parameters)
+response = requests.get(get_api_url, params=parameters)
 
 # Fetching the response body & printing in beautified
 responseBody = response.text
@@ -47,21 +49,17 @@ else:
     assert responseStatusCode == 404
     print(responseStatusCode)
 
-# declaring the replacing values which need to change in payload
-delete_payload = '{"ID": "bookID"}'
-newPayload = delete_payload.replace("bookID", bookCreated)
+# POST - Delete the book created
 
-# Load method and parse json and its returns dictnory
-dict_delete_payload = json.loads(newPayload)
-
-# DELETE Call
 # declaring url and fetching the payload from json file
-url = "https://rahulshettyacademy.com/Library/DeleteBook.php"
+delete_api_url = config['API']['baseEndpoint'] + 'DeleteBook.php'
 req_headers = {
     'Content-Type': 'text/plain'
 }
+delete_payload = deleteBookPayload(bookCreated)
 
-response = requests.post(url, headers=req_headers, json=dict_delete_payload)
+response = requests.post(delete_api_url, headers=req_headers, json=delete_payload)
+
 response_body = response.text
 dict_response_body = json.loads(response_body)
 print(dict_response_body['msg'])

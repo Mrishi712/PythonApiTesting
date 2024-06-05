@@ -11,7 +11,7 @@ author = "TesterQA"
 # POST Call
 # declaring url and fetching the payload from json file
 url = "https://rahulshettyacademy.com/Library/Addbook.php"
-with open('payloads/addBookLibraryPL.json', 'r') as reader:
+with open('utilities/payloads/addBookLibraryPL.json', 'r') as reader:
     payLoad = json.load(reader)
     payLoad["name"] = name
     payLoad["isbn"] = isbn
