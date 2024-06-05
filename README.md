@@ -14,3 +14,5 @@ contents included
 8. POST api call assertion and validations
 9. POST dynamic payload creation using external json file
 10. DELETE api call using requests library
+11. E2E Flow in Library API call - Add library + Get Library + Delete Library
+12. 
